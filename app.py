@@ -7,12 +7,7 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.set_page_config(
-    page_title="Smart Savings App",
-    page_icon="💰",
-    layout="centered",
-    initial_sidebar_state="expanded"
-)
+
 
 st.title("💼 Welcome to SmartSavings App")
 st.markdown("""
