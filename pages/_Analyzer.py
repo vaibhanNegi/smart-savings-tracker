@@ -76,4 +76,3 @@ except FileNotFoundError:
     st.error("user_data.csv not found. Please run the predictor page first.")
 except Exception as e:
     st.error(f"Something went wrong: {e}")
-
