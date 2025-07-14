@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 
 # PostgreSQL credentials
-DATABASE_NAME = "smart_savings_db"
+DATABASE_NAME = "smart_saving_db"
 DB_USER = "postgres"
 DB_PASSWORD = "1234"
 DB_HOST = "localhost"
