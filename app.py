@@ -8,15 +8,23 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+# app.py
 
-st.title("💼 Welcome to SmartSavings App")
-st.markdown("""
-Use the sidebar to navigate between:
-- 📊 SmartSavings Predictor
-- 🧠 Expense Category Analyzer
-- 📈 Monthly Trend
-- 💸 Budget Recommender
-""")
+
+st.set_page_config(page_title="Smart Savings Tracker", layout="centered")
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.warning("Please login first to access the dashboard.")
+    st.stop()
+
+st.title("📊 Welcome to Smart Savings Dashboard")
+st.write(f"👤 Logged in as: {st.session_state.user['name']}")
+
+
+
 
 from sqlalchemy import create_engine
 import psycopg2
