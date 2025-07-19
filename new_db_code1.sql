@@ -10,6 +10,16 @@ CREATE TABLE users (
 );
 drop table auth_users;
 
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+
 
 CREATE TABLE auth_users (
     id SERIAL PRIMARY KEY,
@@ -20,5 +30,7 @@ CREATE TABLE auth_users (
 );
 
 select * from auth_users;
+
+select * from users;
 
 
