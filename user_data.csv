@@ -1,7 +1,6 @@
-
 Amount,Income,month_num,Day,Type,Payment_Method,Category,Weekday,Savings,Expense,Month,DayOfMonth,DayOfWeek,Transaction,PaymentMethod
-3000,30000,7,2,Essential,Cash,Rent,Wednesday,7000,,,,,,
-2000,30000,7,7,Essential,Online,Health,Monday,7000,,,,,,
-7000,30000,7,24,Non-Essential,Card,Entertainment,Thursday,7000,,,,,,
-5000,30000,7,27,Essential,Online,Grocery,Sunday,7000,,,,,,
-6000,30000,6,1,Essential,Online,Rent,Sunday,7000,,,,,,
+2000,30000,7,7,Essential,Online,Health,Monday,6000,,,,,,
+7000,30000,7,24,Non-Essential,Card,Entertainment,Thursday,6000,,,,,,
+5000,30000,7,27,Essential,Online,Grocery,Sunday,6000,,,,,,
+6000,30000,6,1,Essential,Online,Rent,Sunday,6000,,,,,,
+1000,30000,8,3,Essential,Cash,Grocery,Sunday,6000,,,,,,
