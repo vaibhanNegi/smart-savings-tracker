@@ -1,26 +1,27 @@
 import streamlit as st
-from db import insert_user, create_user_table
-import psycopg2
+from db import create_tables
+from auth import register_user
+
+create_tables()
 
 st.title("📝 Register")
-create_user_table()  # ensure table exists
 
-# form inputs
-name    = st.text_input("Name")
-email   = st.text_input("Email")
-password= st.text_input("Password", type="password")
+username = st.text_input("Username")
+email = st.text_input("Email")
+password = st.text_input("Password", type="password")
 confirm = st.text_input("Confirm Password", type="password")
 
 if st.button("Register"):
-    if password != confirm:
+    if not username or not email or not password:
+        st.error("Fill all fields.")
+    elif password != confirm:
         st.error("Passwords do not match.")
-    elif not name or not email or not password:
-        st.warning("Fill all fields.")
     else:
         try:
-            insert_user(name, email, password)
-            st.success("✅ Registered successfully! Now login.")
-        except psycopg2.errors.UniqueViolation:
-            st.error("❌ Email already registered.")
+            register_user(username.strip(), email.strip(), password)
+            st.success("Registered successfully! Now login.")
         except Exception as e:
-            st.error(f"Error: {e}")
+            if "duplicate key" in str(e).lower():
+                st.error("Username or email already exists.")
+            else:
+                st.error(f"Error: {e}")

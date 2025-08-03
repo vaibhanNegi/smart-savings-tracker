@@ -1,53 +1,35 @@
-import email
+import os
 import psycopg2
-import psycopg2.extras
+from dotenv import load_dotenv
 
-# Connect to PostgreSQL
-def connect_db():
-    return psycopg2.connect(
-        host="localhost",
-        database="smart_saving_db",
-        user="postgres",
-        password="1234",
-        port="5432"
-    )
+load_dotenv()  # loads .env in local dev; on Streamlit Cloud env is already injected
+DATABASE_URL = os.getenv("DB_URL")
+if not DATABASE_URL:
+    raise RuntimeError("DB_URL missing. Set it in .env or Streamlit secrets.")
 
-# Create users table
-def create_user_table():
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            username TEXT PRIMARY KEY,
-            email TEXT NOT NULL,
-            password TEXT NOT NULL
-        );
-    ''')
-    conn.commit()
-    cursor.close()
-    conn.close()
+def get_conn():
+    return psycopg2.connect(DATABASE_URL, sslmode="require")  # Supabase needs sslmode=require
 
-# Insert a new user
-def insert_user(username, email, password):
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s);", (username, email, password))
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-# Login check
-def login_user(username, email, password):
-    conn = connect_db()
-    cursor = conn.cursor()
-    
-    query = "SELECT * FROM users WHERE username = %s AND email = %s AND password = %s;"
-    cursor.execute(query, (username, email, password))
-    
-    user = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
-    
-    return user
-
+def create_tables():
+    with get_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS users (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT UNIQUE NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS user_profiles (
+                    user_id INT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+                    age INT,
+                    monthly_income FLOAT,
+                    savings_amount FLOAT,
+                    spending_amount FLOAT,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+        conn.commit()

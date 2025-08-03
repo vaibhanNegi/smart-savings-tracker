@@ -12,16 +12,18 @@ import seaborn as sns
 
 
 
-# Stop access if not logged in
+
+from db import create_tables
+
+create_tables()
+
 if not st.session_state.get("logged_in"):
     st.warning("Please login to access the dashboard.")
     st.stop()
 
-# Dashboard title
 st.title("🎯 Smart Saving Dashboard")
-
-# Show welcome message using username
 st.success(f"Welcome, {st.session_state.get('username', 'User')}!")
+# Yahan aage user ka profile / predictor dikhana
 
 
 
